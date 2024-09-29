@@ -200,9 +200,31 @@ To contribute:
 2. Create a new branch for your feature or bugfix.
 3. Submit a pull request when ready.
 
-## License
+## Licensing
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+This project is licensed under a **dual license model**:
+
+1. **MIT License**: The default license for open-source usage. This allows free use of the software for personal or internal projects under the [MIT License](LICENSE).
+
+2. **Commercial License**: For commercial usage, such as deployment in production environments, enterprise applications, or providing services to customers, a commercial license is required. See the [Commercial License](LICENSE_COMMERCIAL) for more details.
+
+   - The commercial license includes support, warranties, and custom agreements tailored for business needs.
+
+### License Summary
+
+- If you are using this tool for **non-commercial, open-source, or personal use**, you are free to use it under the terms of the **MIT License**.
+- If you intend to use this tool for **commercial purposes** or require **enterprise support**, please contact us for a commercial license.
+
+## Installation
+
+Follow the standard installation steps outlined above.
+
+## Support
+
+- **Open-source users**: Feel free to submit issues or contribute via pull requests.
+- **Commercial users**: You will receive direct support as part of the commercial license agreement.
+
+For more information about licensing or support, please contact [licenses++at++baudevs.com].
 
 ## Credits
 
