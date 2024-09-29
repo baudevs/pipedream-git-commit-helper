@@ -6,6 +6,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 func buildCommitMessage(commitType string, workflowSteps []string, message string) string {
@@ -41,7 +43,7 @@ func finalizeCommit(commitType string, workflowSteps []string) {
 	commitMessage := captureMultiLineInput("Enter commit message (press Enter twice to finish):")
 	finalCommitMessage := buildCommitMessage(commitType, workflowSteps, commitMessage)
 
-	fmt.Println("The following command is ready for review:")
+	color.Yellow("The following command is ready for review:")
 	fmt.Printf("git commit -m \"%s\"\n", finalCommitMessage)
 
 	if confirmAction("Do you want to proceed with the commit?") {
@@ -49,11 +51,11 @@ func finalizeCommit(commitType string, workflowSteps []string) {
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		if err := cmd.Run(); err != nil {
-			fmt.Println(ColorRed, "Error executing commit:", err, ColorReset)
+			color.Red("Error executing commit: %v", err)
 		} else {
-			fmt.Println(ColorGreen, "Commit successful.", ColorReset)
+			color.Green("Commit successful.")
 		}
 	} else {
-		fmt.Println(ColorRed, "Commit aborted.", ColorReset)
+		color.Red("Commit aborted.")
 	}
 }

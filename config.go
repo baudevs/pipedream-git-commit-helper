@@ -5,9 +5,14 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/fatih/color" // Import for colorization
 	"gopkg.in/yaml.v2"
 )
 
+// Declare the config file name
+const configFileName = "pipedream-config.yaml"
+
+// Declare the Config struct type
 type Step struct {
 	Namespace string `yaml:"namespace"`
 }
@@ -23,13 +28,13 @@ type Config struct {
 	Steps     map[string]string `yaml:"steps"`
 }
 
-const configFileName = "pipedream-config.yaml"
-
+// Check if the project is initialized (i.e., config file exists)
 func isInitialized() bool {
 	_, err := os.Stat(configFileName)
 	return err == nil
 }
 
+// Load configuration from the config file
 func loadConfig() (Config, error) {
 	var config Config
 	data, err := os.ReadFile(configFileName)
@@ -42,27 +47,29 @@ func loadConfig() (Config, error) {
 	}
 
 	if config.Schema != "baudevs/2024-09-29" {
-		fmt.Printf("Warning: This project is using an unsupported schema version: %s\n", config.Schema)
+		color.Yellow("Warning: This project is using an unsupported schema version: %s", config.Schema)
 	}
 
 	return config, nil
 }
 
+// Save the configuration to the config file
 func saveConfig(config Config) {
 	data, err := yaml.Marshal(&config)
 	if err != nil {
-		fmt.Println("Error saving configuration:", err)
+		color.Red("Error saving configuration: %v", err)
 		return
 	}
 	err = os.WriteFile(configFileName, data, 0644)
 	if err != nil {
-		fmt.Println("Error writing configuration file:", err)
+		color.Red("Error writing configuration file: %v", err)
 	}
 }
 
+// Initialize the Pipedream project by detecting workflows and steps
 func initializeProject() {
 	if _, err := os.Stat(configFileName); err == nil {
-		fmt.Println(ColorYellow, "This project is already initialized.", ColorReset)
+		color.Yellow("This project is already initialized.")
 		return
 	}
 
@@ -100,10 +107,10 @@ func initializeProject() {
 	})
 
 	if err != nil {
-		fmt.Printf("Error scanning the project directory: %v\n", err)
+		color.Red("Error scanning the project directory: %v", err)
 		return
 	}
 
 	saveConfig(config)
-	fmt.Println(ColorGreen, "Pipedream project initialized successfully with schema version baudevs/2024-09-29.", ColorReset)
+	color.Green("Pipedream project initialized successfully with schema version baudevs/2024-09-29.")
 }

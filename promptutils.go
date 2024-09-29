@@ -1,9 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/manifoldco/promptui"
 )
 
@@ -14,7 +11,6 @@ func prompt(message, defaultVal string) string {
 	}
 	result, err := prompt.Run()
 	if err != nil {
-		fmt.Printf("Prompt failed %v\n", err)
 		return defaultVal
 	}
 	return result
@@ -28,8 +24,7 @@ func selectCommitType() string {
 
 	_, commitType, err := prompt.Run()
 	if err != nil {
-		fmt.Printf("Prompt failed %v\n", err)
-		os.Exit(1)
+		panic(err)
 	}
 
 	return commitType

@@ -7,36 +7,9 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/fatih/color" // Import to handle colors
 	"github.com/go-git/go-git/v5"
 )
-
-// proposeWorkflowFromGit traverses the directory structure and matches Git changes with config
-func proposeWorkflowFromGit(files []string, config Config) []string {
-	var workflowSteps []string
-
-	for _, file := range files {
-		dir := filepath.Dir(file) // Get the directory of the changed file
-		fmt.Println("Checking file:", file)
-		fmt.Println("Directory:", dir)
-
-		// Iterate over workflows in the config
-		for wfDir, wfName := range config.Workflows {
-			// Check if the directory contains the workflow directory
-			if strings.Contains(dir, wfDir) {
-				fmt.Printf("Matched workflow: %s -> %s\n", wfDir, wfName)
-				// Now, iterate over the steps
-				for stepDir, stepName := range config.Steps {
-					if strings.Contains(dir, stepDir) {
-						fmt.Printf("Matched step: %s -> %s\n", stepDir, stepName)
-						workflowSteps = append(workflowSteps, fmt.Sprintf("%s:%s", wfName, stepName))
-					}
-				}
-			}
-		}
-	}
-
-	return workflowSteps
-}
 
 func checkGitChanges() ([]string, []string) {
 	repo, err := git.PlainOpen(".")
@@ -69,14 +42,50 @@ func checkGitChanges() ([]string, []string) {
 		}
 	}
 
+	color.Cyan("Checking for changes...")
+	for _, file := range stagedFiles {
+		color.Green("Staged: %s", file)
+	}
+	for _, file := range unstagedFiles {
+		color.Yellow("Unstaged: %s", file)
+	}
+
 	return stagedFiles, unstagedFiles
 }
 
+func proposeWorkflowFromGit(files []string, config Config) []string {
+	var workflowSteps []string
+
+	for _, file := range files {
+		dir := filepath.Dir(file)
+		color.Cyan("Checking file: %s", file)
+		color.Cyan("Directory: %s", dir)
+
+		for wfDir, wfName := range config.Workflows {
+			if strings.Contains(dir, wfDir) {
+				color.Green("Matched workflow: %s -> %s", wfDir, wfName)
+				for stepDir, stepName := range config.Steps {
+					if strings.Contains(dir, stepDir) {
+						color.Blue("Matched step: %s -> %s", stepDir, stepName)
+						workflowSteps = append(workflowSteps, fmt.Sprintf("%s:%s", wfName, stepName))
+					}
+				}
+			}
+		}
+	}
+
+	return workflowSteps
+}
+
+// stageAllChanges stages all changes in the Git repository using `git add .`
 func stageAllChanges() {
 	cmd := exec.Command("git", "add", ".")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		fmt.Println(ColorRed, "Error staging files:", err, ColorReset)
+	err := cmd.Run()
+	if err != nil {
+		color.Red("Error staging files: %v", err)
+	} else {
+		color.Green("All changes have been staged.")
 	}
 }
