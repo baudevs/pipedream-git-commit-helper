@@ -1,0 +1,44 @@
+.TH PDCOMMIT 1 "September 2024" "1.0" "Pipedream Git Commit Helper Manual"
+.SH NAME
+pdcommit \- A helper tool for committing Pipedream workflows and steps.
+.SH SYNOPSIS
+.B pdcommit
+[\fBinit\fP]
+.br
+.B pdcommit
+[\fB--help\fP]
+.br
+.B pdcommit
+[\fBman\fP]
+.SH DESCRIPTION
+.PP
+The \fBpdcommit\fP tool is used to assist with committing Pipedream workflows and steps.
+It automates the process of creating commit messages based on changes to workflows and steps
+in Pipedream projects.
+.PP
+The \fBpdcommit init\fP command initializes a project by creating a configuration file and tracking
+workflows and steps.
+.SH COMMANDS
+.TP
+\fBpdcommit init\fP
+Initializes a Pipedream project by detecting workflows and steps and creating a configuration file.
+.TP
+\fBpdcommit\fP
+Runs the commit helper and proposes commit messages based on changes to the project.
+.TP
+\fBpdcommit --help\fP
+Displays help information.
+.TP
+\fBpdcommit man\fP
+Displays the full manual.
+.SH OPTIONS
+.TP
+\fB--help\fP
+Displays a list of available commands and options.
+.TP
+\fBman\fP
+Displays this manual page.
+.SH AUTHOR
+Created by BauDevs for Pipedream developers.
+.SH LICENSE
+This project is licensed under the MIT License.
