@@ -8,6 +8,7 @@ func displayHelp() {
 
 Usage:
   pdcommit init               Initialize a Pipedream project
+  pdcommit sync               Sync the configuration with current project structure
   pdcommit                    Commit changes detected in the project
 
 Options:
@@ -24,6 +25,9 @@ COMMANDS
 
 pdcommit init
   - Initializes a Pipedream project, scans for workflows and steps, and stores the mappings in pipedream-config.yaml.
+
+pdcommit sync
+  - Syncs the configuration file with the current project structure, adding new workflows and steps, and optionally removing ones that no longer exist.
   
 pdcommit
   - Analyzes git changes, proposes commit messages, and helps automate the commit process.

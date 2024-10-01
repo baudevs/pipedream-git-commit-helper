@@ -29,6 +29,9 @@ func main() {
 		case "init":
 			initializeProject()
 			return
+		case "sync":
+			syncConfig()
+			return
 		}
 	}
 
